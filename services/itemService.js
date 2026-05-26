@@ -2,9 +2,11 @@ import fs from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
 
+// same __dirname workaround as in index.js, needed for ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// absolute path to the data file so it works regardless of where the process is started from
 const FILE = path.join(__dirname, "../data/items.json");
 
 async function read() {
@@ -27,6 +29,7 @@ export async function getMovieById(id) {
 
 export async function createMovie(data) {
   const movies = await read();
+  // use max existing id + 1 so ids are never reused after a delete
   const newId = movies.length === 0 ? 1 : Math.max(...movies.map(m => m.id)) + 1;
   const movie = {
     id: newId,
@@ -46,6 +49,7 @@ export async function updateMovie(id, data) {
   const i = movies.findIndex(m => m.id === id);
   if (i === -1) return null;
 
+  // only update fields that were actually included in the request body
   if (data.title !== undefined) movies[i].title = data.title.trim();
   if (data.genre !== undefined) movies[i].genre = data.genre;
   if (data.watched !== undefined) movies[i].watched = data.watched;

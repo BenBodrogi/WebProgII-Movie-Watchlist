@@ -1,8 +1,10 @@
+// must match the options in the frontend select dropdown
 const genres = ["Action", "Comedy", "Drama", "Horror", "Sci-Fi", "Romance", "Thriller", "Animation"];
 
 export function validateItem(req, res, next) {
   const { title, genre, watched, rating } = req.body;
 
+  // POST requires both title and genre, PUT only validates fields that are present
   if (req.method === "POST") {
     if (!title || typeof title !== "string" || title.trim() === "") {
       return res.status(400).json({ error: "Title is required" });

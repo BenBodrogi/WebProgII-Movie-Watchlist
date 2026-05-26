@@ -1,6 +1,7 @@
+// allMovies holds the full list from the server, filtering is done locally
 let allMovies = [];
 let currentFilter = "all";
-let editingId = null;
+let editingId = null; // tracks which movie is open in the edit modal
 
 const editModal = new bootstrap.Modal(document.getElementById("editModal"));
 
@@ -56,6 +57,7 @@ function getStars(rating) {
 }
 
 function updateCounter() {
+  // counter always reflects the full list, not just what's currently filtered
   const count = allMovies.filter(m => !m.watched).length;
   document.getElementById("counter").textContent = `${count} to watch`;
 }

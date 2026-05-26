@@ -4,6 +4,7 @@ import { fileURLToPath } from "url";
 import itemRoutes from "../routes/itemRoutes.js";
 import { errorHandler } from "../middleware/errorHandler.js";
 
+// __dirname is not available in ES modules by default, so we derive it manually
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
